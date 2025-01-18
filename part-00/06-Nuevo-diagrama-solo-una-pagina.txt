@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant user as Usuario
+    participant browser as Navegador
+    participant server as Servidor
+
+    user->>browser: Escribe nueva nota y envía el formulario
+    Note right of browser: Se detecta evento submit
+    Note right of browser: Se ejecuta e.preventDefault()
+    Note right of browser: Se crea objeto JSON con nota y fecha
+    browser->>server: POST /new_note_spa (JSON data)
+    activate server
+    server-->>browser: 201 Created
+    deactivate server
+    Note right of browser: Se agrega la nueva nota a la lista (DOM)
+    Note right of browser: Se actualiza la página sin recargarla

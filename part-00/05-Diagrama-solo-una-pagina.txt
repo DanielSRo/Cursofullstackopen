@@ -1,0 +1,33 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    Note right of browser: El navegador ejecuta el código JavaScript para obtener las notas.
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{content: ":(", date: "2024-01-17T17:22:51.432Z"}, ... ]
+    deactivate server
+
+    Note right of browser: El Usuario escribe en el campo de texto la nueva nota y se hace click en Save
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+
+    server-->>browser: 201 Created
+    deactivate server
+
+    Note right of browser: El navegador actualiza la lista de notas sin recargar la pagina
