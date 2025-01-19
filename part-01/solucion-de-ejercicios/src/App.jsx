@@ -7,14 +7,22 @@ const Header = (props) => {
   )
 }
 
-// Componente Content: Contenido del curso sus partes y su ejercicios
+// Componente Content: Contenido del curso
 const Content = (props) => {
   return(
     <>
-    <p>Description: {props.content[0].title}: {props.content[0].exercise}</p>
-    <p>Description: {props.content[1].title}: {props.content[1].exercise}</p>
-    <p>Description: {props.content[2].title}: {props.content[2].exercise}</p>
+    <Part title={props.content[0].title} exercise={props.content[0].exercise}/>
+    <Part title={props.content[1].title} exercise={props.content[1].exercise}/>
+    <Part title={props.content[2].title} exercise={props.content[2].exercise}/>
     </>
+  )
+}
+// Componete Part: descripcion de cada parte del curso (nombre y numero de ejercicios)
+const Part = (props) => {
+  return(
+     <>
+     <p>Description: {props.title}: {props.exercise}</p>
+     </>
   )
 }
 
