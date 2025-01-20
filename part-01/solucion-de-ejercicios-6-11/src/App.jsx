@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Button = ({handleClick, text }) => {
+const Button = ({ handleClick, text }) => {
   return (
     <>
       <button onClick={handleClick}>{text}</button>
@@ -24,13 +24,17 @@ const Statistics = ({ good, neutral, bad }) => {
 
   return (
     <>
-      <StatisticsLine text={'Good Opinion:'} value={good} />
-      <StatisticsLine text={'Neutral Opinion:'} value={neutral} />
-      <StatisticsLine text={'Bad Opinion:'} value={bad} />
+      <table>
+        <tbody>
+          <StatisticsLine text={'Good Opinion:'} value={good} />
+          <StatisticsLine text={'Neutral Opinion:'} value={neutral} />
+          <StatisticsLine text={'Bad Opinion:'} value={bad} />
 
-      <StatisticsLine text={'Total:'} value={totalOpinion} />
-      <StatisticsLine text={'Average:'} value={average} />
-      <StatisticsLine text={'Positive:'} value={positive} />
+          <StatisticsLine text={'Total:'} value={totalOpinion} />
+          <StatisticsLine text={'Average:'} value={average} />
+          <StatisticsLine text={'Positive:'} value={positive} />
+        </tbody>
+      </table>
     </>
   )
 }
@@ -38,7 +42,10 @@ const Statistics = ({ good, neutral, bad }) => {
 const StatisticsLine = ({ text, value }) => {
   return (
     <>
-      <p>{text} {value}</p>
+      <tr>
+        <td>{text}</td>
+        <td>{value}</td>
+      </tr>
     </>
   )
 }
