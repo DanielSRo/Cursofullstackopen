@@ -9,6 +9,10 @@ const App = () => {
   const handleNeutralClick = () => setNeutral(neutral + 1)
   const handleBadClick = () => setBad(bad + 1)  
 
+  const totalOpinion = good + neutral + bad
+  const average = ((good*1)+(bad*(-1)))/totalOpinion
+  const positive = (good*100)/totalOpinion
+
   return (
     <div>
       <h1>Customer Opinion</h1>
@@ -21,6 +25,11 @@ const App = () => {
       <p>Good Opinion: {good}</p>
       <p>Neutral Opinion: {neutral}</p>
       <p>Bad Opinion: {bad}</p>
+
+      <p>Total: {totalOpinion}</p>
+      <p>Average: {average}</p>
+      <p>Positive: {positive} </p>
+
     </div>
   )
 }
