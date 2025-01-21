@@ -1,5 +1,21 @@
 import { useState } from 'react'
 
+const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
+
+const Anecdote = ({ votes, anecdotes, selected, favorite }) => {
+  return (
+    <>
+      <p><b>Score of the anecdote: </b> {votes[selected]}</p>
+      <p>{anecdotes[selected]}</p>
+
+      <h3>Anecdote with the most votes</h3>
+      <p><b>Has: {votes[favorite]} </b></p>
+      <p>{anecdotes[favorite]}</p>
+      <p></p>
+    </>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -12,10 +28,12 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
-  const votes = [2,2,5,6,9,2,3,8]
+  const votes = [2, 2, 5, 6, 9, 2, 3, 8]
 
   const [selected, setSelected] = useState(0)
   const [copyVotes, setCopyVotes] = useState([...votes])
+
+  const favoriteAnecdote = copyVotes.indexOf(Math.max(...copyVotes))
 
   const changeAnecdote = () => {
     const number = Math.floor(Math.random() * anecdotes.length)
@@ -31,11 +49,10 @@ const App = () => {
   return (
     <div>
       <h1>Anecdotes</h1>
-      <button onClick={changeAnecdote}>Change Anecdote</button>
-      <button onClick={scoreAnecdote}>Vote</button>
-      <p><b>Score of the anecdote: </b> {copyVotes[selected]}</p>
-      <h3>Anecdote #{selected + 1}</h3>
-      <p>{anecdotes[selected]}</p>
+      <Button handleClick={changeAnecdote} text={'Change Anecdote'} />
+      <Button handleClick={scoreAnecdote} text={'vote'} />
+
+      <Anecdote anecdotes={anecdotes} votes={copyVotes} selected={selected} favorite={favoriteAnecdote} />
     </div>
   )
 }
