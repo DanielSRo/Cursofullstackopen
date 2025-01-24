@@ -4,11 +4,13 @@ import Directory from './servers/PhoneBook'
 import Form from './components/Form'
 import PhoneBook from './components/PhoneBook'
 import Find from './components/Find'
+import Notification from './components/Notification'
 
 const App = () => {
 
   /* *** *** *** *** *** *** *** *** *** *** *** *** *** */
   const request = () => {
+
     Directory
       .allPerson()
       .then(allPerson => {
@@ -23,6 +25,9 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFind, setNewFind] = useState('')
+
+  const [notification, setNotification] = useState(null)
+  const [typeMessage, setTypeMessage] = useState(true)
 
   const showPerson = persons.filter(name => name.name.toLowerCase() === newFind.toLowerCase())
 
@@ -61,13 +66,22 @@ const App = () => {
   /* *** *** *** *** *** *** *** *** *** *** *** *** *** */
   const addPerson = (person) => {
     Directory
-        .createNewPerson(person)
-        .then(newPerson => {
-          setPersons(persons.concat(newPerson))
-        })
-        .catch(error => 
-          console.error('Failed to add a new person:', error)
+      .createNewPerson(person)
+      .then(newPerson => {
+        setPersons(persons.concat(newPerson))
+        styleMessage(
+          `${newPerson.name} was successfully added`,
+          true
         )
+
+      })
+      .catch(error =>
+        console.error('Failed to add a new person:', error),
+        styleMessage(
+          'Failed to add this person failed removal',
+          false
+        )
+      )
   }
 
   /* *** *** *** *** *** *** *** *** *** *** *** *** *** */
@@ -75,10 +89,18 @@ const App = () => {
     Directory
       .updatePerson(person)
       .then(response => {
-        setPersons(persons.map(n => n.id !== response.id ? n : response) )
+        setPersons(persons.map(n => n.id !== response.id ? n : response))
+        styleMessage(
+          `${response.name} was successfully updated`,
+          true
+        )
       })
       .catch(error =>
-        console.error('Failed to update the person:', error) 
+        console.error('Failed to update the person:', error),
+        styleMessage(
+          'Failed to update this person',
+          false
+        )
       )
   }
 
@@ -86,11 +108,19 @@ const App = () => {
   const deletePerson = id => {
     Directory
       .deletePerson(id)
-      .then(() => {
+      .then(response => {
         setPersons(persons.filter(n => n.id !== id))
+        styleMessage(
+          `${response.name} was successfully eliminated`,
+          true
+        )
       })
       .catch(error => {
-        console.error('Failed to delete the person:', error)
+        console.error('Failed to delete the person:', error),
+          styleMessage(
+            'Failed to delete this person',
+            false
+          )
       })
   }
 
@@ -107,11 +137,22 @@ const App = () => {
     event.preventDefault()
     setNewFind(event.target.value)
   }
+  /* *** *** *** *** *** *** *** *** *** *** *** *** *** */
+  const styleMessage = (message, state) => {
+
+    setTypeMessage(state)
+    setNotification(message)
+
+    setTimeout(() => {
+      setNotification(null)
+    }, 4000)
+  }
 
   /* *** *** *** *** *** *** *** *** *** *** *** *** *** */
   return (
     <div>
       <h2>Find Person</h2>
+      <Notification notification={notification} typeMessage={typeMessage} />
       <Find newFind={newFind} handleFind={handleFind} showPerson={showPerson} />
 
       <h2>Add a new</h2>
