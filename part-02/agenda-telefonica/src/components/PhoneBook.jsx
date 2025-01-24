@@ -1,12 +1,11 @@
-const Phonebook = ({ person }) => {
+const Phonebook = ({ person, deletePerson }) => {
     return (
-        <div>
-            <ul>
-                {person.map(info =>
-                    <li key={info.id}>name: {info.name} - Number: {info.number}</li>
-                )}
-            </ul>
-        </div>
+        <>
+            <li>
+                name: {person.name} - Number: {person.number}
+                <button onClick={deletePerson}>Delete</button>
+            </li>
+        </>
     )
 }
 
